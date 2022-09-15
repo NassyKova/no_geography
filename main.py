@@ -1,23 +1,32 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
+ma = Marshmallow()
+bcrypt = Bcrypt()
+# jwt = JWTManager()
 
 def create_app():
-    # using a list comprehension and multiple assignment 
-    # to grab the environment variables we need
-    
-    # Creating the flask app object - this is the core of our app!
+    # Create the flask app object
     app = Flask(__name__)
 
-    # configuring our app:
     app.config.from_object("config.app_config")
 
-    # creating our database object! This allows us to use our ORM
+    #initialise the instances
     db.init_app(app)
-    
+    ma.init_app(app)
+    bcrypt.init_app(app)
+    # jwt.init_app(app)
+
+    from commands import db_commands
+    app.register_blueprint(db_commands)
+
+    from controllers import registerable_controllers
+    for controller in registerable_controllers:
+        app.register_blueprint(controller)
+
     return app
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+
