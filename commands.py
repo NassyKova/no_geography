@@ -112,11 +112,10 @@ def seed_db():
         towards Altona Civic Centre on the corner of Millers Rd. Cross Millers Rd and walk in between the civic centre and Altona Bowling Club to Bluegum Drive.\
         Turn right, then left into Fresno St on the corner of J.K. Grant Reserve. Cherry Lake is now in front of you. \
         Your choice to walk either way all the way around.",
-        dates = date(day = 12, month = 1,year = 2022 ),
+        date = date(day = 12, month = 1,year = 2022 ),
         length = "2 h",
         cost = "25",
         capacity = "10",
-        status = True,
         address = address2.address_id,
         provider_id = provider1.provider_id
     )
@@ -129,11 +128,10 @@ def seed_db():
         +Group dinner in Italian Winery\
         +Breakfast in a Unique local produce cafe\
         +Social drinks&Music night",
-        dates = date(day = 17, month = 9,year = 2022 ),
+        date = date(day = 17, month = 9,year = 2022 ),
         length = "2 days",
         cost = "100",
         capacity = "10",
-        status = True,
         address = address1.address_id,
         provider_id = provider2.provider_id
     )
