@@ -19,10 +19,19 @@ def get_tours():
     # result = tours_schema.dump(tours_list)
     # return jsonify(result), #200
 
+
+@tours.route("/<int:id>", methods=["GET"])
+def get_tour(id):
+    # get the tour from the database by id
+    tour = Tour.query.get(id)
+    result = tour_schema.dump(tour)
+    return jsonify(result)
+
+
 @tours.route("/add", methods=["POST"])
 def add_tour():
-    # # it is not enough with a token, the identity needs to be a librarian
-    # if get_jwt_identity() != "librarian":
+    # # it is not enough with a token, the identity needs to be a admin
+    # if get_jwt_identity() != "admin":
     #     return {"error": "You don't have the permission to do this"}, 403    
     tour_fields = tour_schema.load (request.json)
     tour = Tour(
@@ -39,3 +48,27 @@ def add_tour():
     db.session.add(tour)
     db.session.commit()
     return jsonify(tour_schema.dump(tour))
+
+
+@tours.route("/<int:id>", methods=["PUT"])
+def update_tour(id):
+    #find the tour in the database
+    tour = Tour.query.get(id)
+        #get the tour details from the request
+    tour_fields = tour_schema.load(request.json)
+    #upodate the values of the tour
+    tour.title = tour_fields["title"]
+    tour.description = tour_fields["description"]
+    tour.date = tour_fields["date"]
+    tour.length = tour_fields["length"]
+    tour.cost = tour_fields["cost"]
+    tour.capacity = tour_fields["capacity"]
+    tour.address = tour_fields["address"]
+    tour.provider_id = tour_fields["provider_id"]
+
+    #save changes in the database
+    db.session.commit() 
+
+    return jsonify(tour_schema.dump(tour)), 201  
+
+

@@ -30,6 +30,15 @@ def drop_db():
 def seed_db():
 
 # clients seed
+    admin = Client(
+        f_name = "Joe",
+        l_name = "First",
+        email = "jfirst@email.com",
+        password = bcrypt.generate_password_hash("12345678").decode("utf8"),
+    )
+    db.session.add(admin)
+
+
     client1 = Client(
         f_name = "Laura",
         l_name = "Scott",
@@ -147,5 +156,13 @@ def seed_db():
     )
     db.session.add(booking1)
     db.session.commit()
+
+    booking2 = Booking(
+        tour_id = tour2.tour_id,
+        client_id = client2.client_id
+    )
+    db.session.add(booking2)
+    db.session.commit()
+
 
     print("tables seeded")
