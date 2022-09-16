@@ -3,12 +3,13 @@ from flask import Blueprint, jsonify, request
 from models.clients import Client
 from schemas.client_schema import client_schema
 from main import db, bcrypt, jwt
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import jwt_required
-from main import jwt
+from flask_jwt_extended import create_access_token, jwt_required
+
+
 
 auth = Blueprint('auth', __name__, url_prefix="/auth")
 
+# test
 @auth.route("/")
 def hi():
     return "Hi"
@@ -45,3 +46,19 @@ def register_client():
     token = create_access_token(identity=str(client.client_id),expires_delta=timedelta(days=1))
 
     return {"email": client.email, "token": token, "f_name": client.f_name, "l_name": client.l_name, "phone": client.phone}
+
+
+# login
+@auth.route("/login", methods=["POST"])
+def login_client():
+    # get the client's details from the request
+    client_fields = client_schema.load(request.json)
+    # Check email and password. Client needs to exist, and password needs to match    
+    client = Client.query.filter_by(email=client_fields["email"]).first()
+    if not client:
+        return {"error": "email is not found"}
+    if not bcrypt.check_password_hash(client.password, client_fields["password"]):
+        return {"error": "wrong password"}
+    # Credentials are valid, so generate token and return it to the client
+    token = create_access_token(identity=str(client.client_id), expires_delta=timedelta(days=1))
+    return {"email": client.email, "token": token}
