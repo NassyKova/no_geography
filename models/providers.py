@@ -9,4 +9,4 @@ class Provider(db.Model):
     website = db.Column(db.String())
     bank_bsb = db.Column(db.Integer)
     bank_acc_number = db.Column(db.Integer)
-    address = db.Column(db.Integer, db.ForeignKey("addresses.address_id"), nullable=False)
+    address_id = db.Column(db.Integer, db.ForeignKey("addresses.address_id"), nullable=False)

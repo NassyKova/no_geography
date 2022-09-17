@@ -9,9 +9,11 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 bookings = Blueprint('bookings', __name__, url_prefix="/bookings")
 
+#!!!!!!!!!!!!!!!!!!!!!
 # get all bookings
 # RIGHT NOW JUST ID
 @bookings.route('/', methods=["GET"])
+
 def get_all_bookings():
     bookings_list = Booking.query.all()
     result = bookings_schema.dump(bookings_list)

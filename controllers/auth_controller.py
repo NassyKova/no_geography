@@ -1,10 +1,12 @@
 from datetime import timedelta
 from flask import Blueprint, jsonify, request
 from models.clients import Client
+from models.admin import Admin
 from schemas.client_schema import client_schema
+from schemas.admin_schema import admin_schema
 from main import db, bcrypt, jwt
 from flask_jwt_extended import create_access_token, jwt_required
-
+from marshmallow import ValidationError
 
 
 auth = Blueprint('auth', __name__, url_prefix="/auth")
@@ -48,7 +50,7 @@ def register_client():
     return {"email": client.email, "token": token, "f_name": client.f_name, "l_name": client.l_name, "phone": client.phone}
 
 
-# login
+# client's login
 @auth.route("/login", methods=["POST"])
 def login_client():
     # get the client's details from the request
@@ -62,3 +64,27 @@ def login_client():
     # Credentials are valid, so generate token and return it to the client
     token = create_access_token(identity=str(client.client_id), expires_delta=timedelta(days=1))
     return {"email": client.email, "token": token}
+
+
+# admin's login
+@auth.route("/admin/login", methods=["POST"])
+def login_admin():
+        # get email and password from the request
+    admin_fields = admin_schema.load(request.json)
+    # Check email and password. Adminneeds to exist, and password needs to match 
+    admin = Admin.query.filter_by(email=admin_fields["email"]).first()
+    if not admin:
+        return {'error': "this email does not have asmin rights"}
+
+    if not bcrypt.check_password_hash(admin.password, admin_fields["password"]):
+        return {'error': "this password is not correct"}
+    # Credentials are valid, so generate token and return it to the user
+    token = create_access_token(identity="admin", expires_delta=timedelta(days=1))
+
+    return {"email": admin.email, "token": token}
+
+#example??
+@auth.errorhandler(ValidationError)
+def register_validation_error(error):
+    #print(error.messages)
+    return error.messages, 400

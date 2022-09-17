@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from main import db
 from models.tours import Tour
 from schemas.tour_schema import tour_schema, tours_schema
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 tours = Blueprint('tours', __name__, url_prefix="/tours")
 
@@ -29,10 +30,11 @@ def get_tour(id):
 
 
 @tours.route("/add", methods=["POST"])
+@jwt_required()
 def add_tour():
-    # # it is not enough with a token, the identity needs to be a admin
-    # if get_jwt_identity() != "admin":
-    #     return {"error": "You don't have the permission to do this"}, 403    
+        #the identity needs to be an admin
+    if get_jwt_identity() != "admin":
+        return {"error": "You don't have the permission to do this"}, 403    
     tour_fields = tour_schema.load (request.json)
     tour = Tour(
         title = tour_fields["title"],
@@ -51,7 +53,11 @@ def add_tour():
 
 
 @tours.route("/<int:id>", methods=["PUT"])
+@jwt_required()
 def update_tour(id):
+        #the identity needs to be a librarian
+    if get_jwt_identity() != "admin":
+        return {"error": "You don't have the permission to do this"}, 403  
     #find the tour in the database
     tour = Tour.query.get(id)
         #get the tour details from the request

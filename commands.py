@@ -6,6 +6,7 @@ from models.providers import Provider
 from models.bookings import Booking
 from models.addresses import Address
 from models.postcodes import Postcode
+from models.admin import Admin
 from datetime import date
 
 
@@ -29,16 +30,15 @@ def drop_db():
 @db_commands.cli.command('seed')
 def seed_db():
 
-# clients seed
-    admin = Client(
-        f_name = "Joe",
-        l_name = "First",
-        email = "jfirst@email.com",
+# admin seed
+    admin1 = Admin(
+        name = "Sarah the admin",
+        email = "admin@email.com",
         password = bcrypt.generate_password_hash("12345678").decode("utf8"),
     )
-    db.session.add(admin)
+    db.session.add(admin1)
 
-
+# clients seed
     client1 = Client(
         f_name = "Laura",
         l_name = "Scott",
@@ -99,7 +99,7 @@ def seed_db():
         website = "nogeography.com",
         bank_bsb = "123456",
         bank_acc_number = "123456789",
-        address = address1.address_id
+        address_id = address1.address_id
     )
     db.session.add(provider1)
 
@@ -108,7 +108,7 @@ def seed_db():
         website = "kayakint.com",
         bank_bsb = "233456",
         bank_acc_number = "23456789",
-        address = address1.address_id
+        address_id = address1.address_id
     )
     db.session.add(provider2)
     db.session.commit()
