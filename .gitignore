@@ -2,3 +2,5 @@ venv
 __pychache__
 .env
 .flaskenv
+/venv
+/__pychache__

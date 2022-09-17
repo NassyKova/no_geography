@@ -5,16 +5,12 @@ from models.admin import Admin
 from schemas.client_schema import client_schema
 from schemas.admin_schema import admin_schema
 from main import db, bcrypt, jwt
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token
 from marshmallow import ValidationError
 
 
 auth = Blueprint('auth', __name__, url_prefix="/auth")
 
-# test
-@auth.route("/")
-def hi():
-    return "Hi"
 
 @auth.route("/register", methods=["POST"])
 def register_client():
