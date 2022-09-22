@@ -9,6 +9,8 @@ tours = Blueprint('tours', __name__, url_prefix="/tours")
 # The GET routes endpoint
 @tours.route("/", methods=["GET"])
 def get_tours():
+    # show the contnet of the query string
+    print(request.query_string)
     # get all the tours from the db
     tours_list = Tour.query.all()
     # Convert the tours from the database into a JSON format and store them in result

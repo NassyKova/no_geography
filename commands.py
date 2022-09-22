@@ -108,7 +108,7 @@ def seed_db():
         website = "kayakint.com",
         bank_bsb = "233456",
         bank_acc_number = "23456789",
-        address_id = address1.address_id
+        address_id = address2.address_id
     )
     db.session.add(provider2)
     db.session.commit()
@@ -126,6 +126,7 @@ def seed_db():
         cost = "25",
         capacity = "10",
         address = address2.address_id,
+        # add the id explicitly
         provider_id = provider1.provider_id
     )
     db.session.add(tour1)
@@ -142,7 +143,8 @@ def seed_db():
         cost = "100",
         capacity = "10",
         address = address1.address_id,
-        provider_id = provider2.provider_id
+        # add the object, SQLAlchemy will handle it 
+        provider = provider2
     )
     db.session.add(tour2)
     # commit tours

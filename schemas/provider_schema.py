@@ -1,5 +1,6 @@
 from main import ma
 from marshmallow import fields
+from schemas.address_schema import AddressSchema
 
 class ProviderSchema(ma.Schema):
     class Meta:

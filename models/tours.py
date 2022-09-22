@@ -13,3 +13,13 @@ class Tour(db.Model):
     capacity = db.Column(db.Integer)
     address = db.Column(db.Integer, db.ForeignKey("addresses.address_id"), nullable=False)
     provider_id = db.Column(db.Integer, db.ForeignKey("providers.provider_id"), nullable=False)
+    bookings = db.relationship(
+        "Booking",
+        backref = "tour",
+        cascade="all, delete"
+    )
+
+    addresses = db.relationship(
+        "Address",
+        backref = "tour",
+    )

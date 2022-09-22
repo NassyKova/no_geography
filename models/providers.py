@@ -10,3 +10,7 @@ class Provider(db.Model):
     bank_bsb = db.Column(db.Integer)
     bank_acc_number = db.Column(db.Integer)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.address_id"), nullable=False)
+    tours = db.relationship(
+        "Tour",
+        backref="provider"
+    )

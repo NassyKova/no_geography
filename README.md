@@ -17,7 +17,7 @@ admin login, jwt requred
 - __@tours.route("/", methods=["GET"])__
 shows all tours
 - __@tours.route("/<int:id>", methods=["GET"])__
-shows information about a choosen by id tour
+shows information about tour by tour id
 - __@tours.route("/add", methods=["POST"])__
 adding new tour, by admin only, jwt required
 - __@tours.route("/<int:id>", methods=["PUT"])__
