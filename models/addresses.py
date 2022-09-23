@@ -12,11 +12,6 @@ class Address(db.Model):
     postcode_id = db.Column(db.Integer, db.ForeignKey("postcodes.postcode_id"), nullable=False)
 
 
-    # providers = db.relationship(
-    #     "Provider",
-    #     backref="address"
-    # )
-
     tours = db.relationship(
         "Tour",
         backref="address"

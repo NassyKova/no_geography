@@ -125,7 +125,7 @@ def seed_db():
         length = "2 h",
         cost = "25",
         capacity = "10",
-        address = address2.address_id,
+        address_id = address2.address_id,
         # add the id explicitly
         provider_id = provider1.provider_id
     )
@@ -142,7 +142,7 @@ def seed_db():
         length = "2 days",
         cost = "100",
         capacity = "10",
-        address = address1.address_id,
+        address_id = address1.address_id,
         # add the object, SQLAlchemy will handle it 
         provider = provider2
     )

@@ -7,3 +7,8 @@ class Postcode(db.Model):
     postcode_id = db.Column(db.Integer, primary_key=True)
     postcode = db.Column(db.Integer, nullable=False)
     state = db.Column(db.String(), nullable=False)
+
+    addresses = db.relationship(
+        "Address",
+        backref="postcode"
+    )
