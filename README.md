@@ -1,10 +1,22 @@
 # Anastasia Dyakova T2a
 
 > ## R1	Identification of the problem you are trying to solve by building this particular app.
+A friend of mine is running a travel group on MeetUp, they run it by themselves. We were discussing the possibilities of growing the business. One of the idea was about combinging different small groups similar to what my friend made. Having all the groups in one place will be benefecial for the group owners - client base will be increasing 
 > ## R2	Why is it a problem that needs solving?
+
 > ## R3	Why have you chosen this database system. What are the drawbacks compared to others?
+For this project we use PostgreSQL database.
+Postgres is a very well documented database system, it's open sourced and free. It works well with external databases and runs on different platforms. Nested databases transactions let the database be more adaptable. Creating and dropping the tables is very simpl to use.
+
+Drawback for postgres would be
+Horisontal scaling can get complicated, requires additional solutions to make it easily useble.
+Not the best solution for large scale applications, it might work noticably slow.
+According to database structure, we can't have nore fields than already had been defined in the database. To cxhange that, we need to go thought the code and implement the change in every place that has a connection.
+Opensource also comes with no warranty and no liability
+
 
 > ## R4	Identify and discuss the key functionalities and benefits of an ORM
+Object-relational mapping connects the code and the database.
 > ## R5	Document all endpoints for your API
 ### Authoisational routes
 - __@auth.route("/register", methods=["POST"])__
@@ -33,6 +45,7 @@ adding new provider, admin only
 - __@bookings.route('/', methods=["GET"])__
 
 > ## R6	An ERD for your app
+![]()
 > ## R7	Detail any third party services that your app will use
 - psycopg2 To create the connection in Flask we need Psycopg, which is the most popular PostgreSQL database adapter for Pytho
 - SQLAlchemy SQLAlchemy is the ORM we will use to connect Flask and PostgreSQL, so let's install that as well:
@@ -44,5 +57,14 @@ from marshmallow.validate import Length
 - flask-jwt-extended
 
 > ## R8	Describe your projects models in terms of the relationships they have with each other
+1 provider can have many tours. 
+1 provider has one address.
+1 tour has 1 address
+1 addrees has 1 postcodes
+1 booking has one tour
+1 client can have many bookings
+1 tour has 1 address
 > ## R9	Discuss the database relations to be implemented in your application
+erd vs models
 > ## R10	Describe the way tasks are allocated and tracked in your project
+trello board

@@ -1,7 +1,7 @@
 from main import ma
 from marshmallow import fields
-from schemas.address_schema import AddressSchema
-from schemas.provider_schema import ProviderSchema
+# from schemas.address_schema import AddressSchema
+# from schemas.provider_schema import ProviderSchema
 from schemas.postcode_schema import PostcodeSchema
 
 class TourSchema(ma.Schema):
@@ -9,11 +9,18 @@ class TourSchema(ma.Schema):
         ordered = True
         fields = ["title","description", "tour_id", "date", "length", "cost", "capacity", "address_id", "postcode_id", "provider_id", "provider", "address", "postcode"]
         load_only = ["provider_id", "address_id"]
+    title = ma.String(required = True)
+    description  = ma.String(required = True)
+    # date = ma.Date(required = True)
+    # length = ma.Integer(required = True)
+    cost = ma.Integer(required = True)
+    capacity = ma.Integer(required = True)
+
     # Schema is defined as a String, to avoid the circular import error
     provider = fields.Nested("ProviderSchema", only=("name",))
     # address = fields.Nested("AddressSchema", only=("street_number", "street_name", "suburb",))
     address = fields.Nested("AddressSchema", only=("suburb", "postcode",))
-    postcode = fields.Nested("PostcodeSchema", only=("postcode", "state",))
+    # postcode = fields.Nested("PostcodeSchema", only=("postcode", "state",))
 
     # address = fields.Nested(AddressSchema)
 

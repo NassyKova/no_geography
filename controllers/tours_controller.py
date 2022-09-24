@@ -1,8 +1,10 @@
+from urllib import response
 from flask import Blueprint, jsonify, request
 from main import db
 from models.tours import Tour
 from schemas.tour_schema import tour_schema, tours_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from marshmallow import ValidationError
 
 tours = Blueprint('tours', __name__, url_prefix="/tours")
 
@@ -27,6 +29,8 @@ def get_tours():
 def get_tour(id):
     # get the tour from the database by id
     tour = Tour.query.get(id)
+    if not tour:
+        return {"error": "no such tour id"}, 404
     result = tour_schema.dump(tour)
     return jsonify(result)
 
@@ -45,24 +49,29 @@ def add_tour():
         length = tour_fields["length"],
         cost = tour_fields["cost"],
         capacity = tour_fields["capacity"],
-        address = tour_fields["address"],
+        address_id = tour_fields["address_id"],
         provider_id = tour_fields["provider_id"]
     )
 
     db.session.add(tour)
     db.session.commit()
-    return jsonify(tour_schema.dump(tour))
+
+    return jsonify(tour_schema.dump(tour)), 201 
+
+
 
 
 @tours.route("/<int:id>", methods=["PUT"])
 @jwt_required()
 def update_tour(id):
-        #the identity needs to be a librarian
+        #the identity needs to be an admin
     if get_jwt_identity() != "admin":
-        return {"error": "You don't have the permission to do this"}, 403  
+        return {"error": "You don't have the permission to do this"}, 403 
     #find the tour in the database
     tour = Tour.query.get(id)
-        #get the tour details from the request
+    if not tour:
+        return {"error": "no such tour id"}, 404
+    #get the tour details from the request
     tour_fields = tour_schema.load(request.json)
     #upodate the values of the tour
     tour.title = tour_fields["title"]
@@ -71,12 +80,18 @@ def update_tour(id):
     tour.length = tour_fields["length"]
     tour.cost = tour_fields["cost"]
     tour.capacity = tour_fields["capacity"]
-    tour.address = tour_fields["address"]
+    tour.address_id = tour_fields["address_id"]
     tour.provider_id = tour_fields["provider_id"]
-
+        
     #save changes in the database
     db.session.commit() 
 
     return jsonify(tour_schema.dump(tour)), 201  
+
+
+@tours.errorhandler(ValidationError)
+def register_validation_error(error):
+    #print(error.messages)
+    return error.messages, 400
 
 

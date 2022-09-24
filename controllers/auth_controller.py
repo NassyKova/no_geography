@@ -70,10 +70,10 @@ def login_admin():
     # Check email and password. Adminneeds to exist, and password needs to match 
     admin = Admin.query.filter_by(email=admin_fields["email"]).first()
     if not admin:
-        return {'error': "this email does not have asmin rights"}
+        return {'error': "this email does not have admin rights"}, 403 
 
     if not bcrypt.check_password_hash(admin.password, admin_fields["password"]):
-        return {'error': "this password is not correct"}
+        return {'error': "this password is not correct"}, 401
     # Credentials are valid, so generate token and return it to the user
     token = create_access_token(identity="admin", expires_delta=timedelta(days=1))
 
