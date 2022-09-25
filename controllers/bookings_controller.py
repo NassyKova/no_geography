@@ -19,26 +19,26 @@ def get_all_bookings():
     result = bookings_schema.dump(bookings_list)
     return jsonify(result)
 
-# # post a new booking
-# @bookings.route("<int:tour_id>/new", methods=["POST"])
-# @jwt_required()
-# def new_reservation(tour_id):
-# #     #find the tourin the database
-#     tour = Tour.query.get(tour_id)
-# #     #check if book exist in the database
-# #     if not book:
-# #         return {"error": "Book id not found in the database"}, 404
-#     client_id = get_jwt_identity()
-#     client = Client.query.get(client_id)
-#     if not client:
-#         return {"error": "User not found in the database"}, 404
+# post a new booking
+@bookings.route("<int:tour_id>/add", methods=["POST"])
+@jwt_required()
+def new_booking(tour_id):
+#     #find the tour in the database
+    tour = Tour.query.get(tour_id)
+#     #check if tour exist in the database
+    if not tour:
+        return {"error": "Tour id not found in the database"}, 404
+    client_id = get_jwt_identity()
+    client = Client.query.get(client_id)
+    if not client:
+        return {"error": "Client not found in the database"}, 404
 
-#     booking = Booking(
-#         client = client,
-#         tour = tour,
-#     )
+    booking = Booking(
+        client = client,
+        tour = tour,
+    )
 
-#     db.session.add(booking)
-#     db.session.commit()
+    db.session.add(booking)
+    db.session.commit()
 
-#     return jsonify(booking_schema.dump(booking))
+    return jsonify(booking_schema.dump(booking))
