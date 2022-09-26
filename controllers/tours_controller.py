@@ -46,6 +46,7 @@ def add_tour():
         title = tour_fields["title"],
         description = tour_fields["description"],
         date = tour_fields["date"],
+        time = tour_fields["time"],
         length = tour_fields["length"],
         cost = tour_fields["cost"],
         capacity = tour_fields["capacity"],

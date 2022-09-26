@@ -59,6 +59,7 @@ def login_client():
         return {"error": "wrong password"}
     # Credentials are valid, so generate token and return it to the client
     token = create_access_token(identity=str(client.client_id), expires_delta=timedelta(days=1))
+    # token = create_access_token(identity="client", expires_delta=timedelta(days=1))
     return {"email": client.email, "token": token}
 
 

@@ -9,11 +9,9 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 bookings = Blueprint('bookings', __name__, url_prefix="/bookings")
 
-#!!!!!!!!!!!!!!!!!!!!!
-# get all bookings
-# RIGHT NOW JUST ID
-@bookings.route('/', methods=["GET"])
 
+# get all bookings
+@bookings.route('/', methods=["GET"])
 def get_all_bookings():
     bookings_list = Booking.query.all()
     result = bookings_schema.dump(bookings_list)
@@ -29,9 +27,11 @@ def new_booking(tour_id):
     if not tour:
         return {"error": "Tour id not found in the database"}, 404
     client_id = get_jwt_identity()
+    # print(client_id)
     client = Client.query.get(client_id)
     if not client:
         return {"error": "Client not found in the database"}, 404
+
 
     booking = Booking(
         client = client,

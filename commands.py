@@ -7,7 +7,7 @@ from models.bookings import Booking
 from models.addresses import Address
 from models.postcodes import Postcode
 from models.admin import Admin
-from datetime import date
+from datetime import date, time
 
 
 db_commands = Blueprint("db", __name__)
@@ -121,7 +121,8 @@ def seed_db():
         towards Altona Civic Centre on the corner of Millers Rd. Cross Millers Rd and walk in between the civic centre and Altona Bowling Club to Bluegum Drive.\
         Turn right, then left into Fresno St on the corner of J.K. Grant Reserve. Cherry Lake is now in front of you. \
         Your choice to walk either way all the way around.",
-        date = date(day = 12, month = 1,year = 2022 ),
+        date = date(day = 11, month = 6, year = 2023),
+        time = time(hour=16, minute=20),
         length = "2 h",
         cost = "25",
         capacity = "10",
@@ -138,7 +139,8 @@ def seed_db():
         +Group dinner in Italian Winery\
         +Breakfast in a Unique local produce cafe\
         +Social drinks&Music night",
-        date = date(day = 17, month = 9,year = 2022 ),
+        date = date(day = 28, month = 2, year = 2022),
+        time = time(hour = 16),
         length = "2 days",
         cost = "100",
         capacity = "10",
