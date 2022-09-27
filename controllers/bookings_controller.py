@@ -3,9 +3,10 @@ from main import db
 from models.tours import Tour
 from models.bookings import Booking
 from models.clients import Client
-from schemas.tour_schema import tour_schema, tours_schema
+# from schemas.tour_schema import tour_schema, tours_schema
 from schemas.booking_schema import booking_schema, bookings_schema
-from flask_jwt_extended import jwt_required, get_jwt_identity
+# from schemas.client_schema import client_schema
+from flask_jwt_extended import jwt_required
 
 bookings = Blueprint('bookings', __name__, url_prefix="/bookings")
 
@@ -18,16 +19,15 @@ def get_all_bookings():
     return jsonify(result)
 
 # post a new booking
-@bookings.route("<int:tour_id>/add", methods=["POST"])
+@bookings.route("<int:tour_id>/add/<int:client_id>", methods=["POST"])
 @jwt_required()
-def new_booking(tour_id):
+def new_booking(tour_id, client_id):
 #     #find the tour in the database
     tour = Tour.query.get(tour_id)
 #     #check if tour exist in the database
     if not tour:
         return {"error": "Tour id not found in the database"}, 404
-    client_id = get_jwt_identity()
-    # print(client_id)
+#     #check if client exist in the database
     client = Client.query.get(client_id)
     if not client:
         return {"error": "Client not found in the database"}, 404
@@ -41,4 +41,4 @@ def new_booking(tour_id):
     db.session.add(booking)
     db.session.commit()
 
-    return jsonify(booking_schema.dump(booking))
+    return jsonify(booking_schema.dump(booking)), 201

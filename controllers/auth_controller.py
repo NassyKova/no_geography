@@ -1,10 +1,10 @@
 from datetime import timedelta
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from models.clients import Client
 from models.admin import Admin
 from schemas.client_schema import client_schema
 from schemas.admin_schema import admin_schema
-from main import db, bcrypt, jwt
+from main import db, bcrypt
 from flask_jwt_extended import create_access_token
 from marshmallow import ValidationError
 
@@ -19,12 +19,12 @@ def register_client():
     # check the client by email to check if is'a already in the db
     client = Client.query.filter_by(email=client_fields["email"]).first()
     if client:
-        return {"error": "This email has already been registered"}
+        return {"error": "This email has already been registered"}, 400
 
     # check the client by phone to check if is'a already in the db
     client = Client.query.filter_by(phone=client_fields["phone"]).first()
     if client:
-        return {"error": "This phone has already been registered"}
+        return {"error": "This phone has already been registered"}, 400
 
     #create client Object
     client = Client(
@@ -43,7 +43,7 @@ def register_client():
     # generate the token setting the identity (client_id) and expiry time (1 day)
     token = create_access_token(identity=str(client.client_id),expires_delta=timedelta(days=1))
 
-    return {"email": client.email, "token": token, "f_name": client.f_name, "l_name": client.l_name, "phone": client.phone}
+    return {"email": client.email, "token": token, "f_name": client.f_name, "l_name": client.l_name, "phone": client.phone}, 201
 
 
 # client's login
@@ -54,9 +54,9 @@ def login_client():
     # Check email and password. Client needs to exist, and password needs to match    
     client = Client.query.filter_by(email=client_fields["email"]).first()
     if not client:
-        return {"error": "email is not found"}
+        return {"error": "email is not found"}, 404
     if not bcrypt.check_password_hash(client.password, client_fields["password"]):
-        return {"error": "wrong password"}
+        return {"error": "the password is not correct"}, 401
     # Credentials are valid, so generate token and return it to the client
     token = create_access_token(identity=str(client.client_id), expires_delta=timedelta(days=1))
     # token = create_access_token(identity="client", expires_delta=timedelta(days=1))

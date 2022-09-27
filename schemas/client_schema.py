@@ -7,7 +7,12 @@ class ClientSchema(ma.Schema):
         ordered = True
         fields = ["client_id","email", "password", "phone", "f_name", "l_name"]
     #add validation to password
-    password = ma.String(validate=Length(min=8))
+    email = ma.String(required = True)
+    password = ma.String(validate=Length(min=8), required=True)
+    phone = ma.Integer(required = True)
+    f_name = ma.String(required = True)
+    l_name = ma.String(required = True)
+
         # load_only = ["provider_id"]
     # Schema is defined as a String, to avoid the circular import error
     # provider = fields.Nested("ProviderSchema", only=("name",))

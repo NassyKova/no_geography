@@ -3,6 +3,7 @@ from main import db
 from schemas.provider_schema import provider_schema, providers_schema
 from models.providers import Provider
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from marshmallow import ValidationError
 
 providers = Blueprint('providers', __name__, url_prefix="/providers")
 
@@ -49,4 +50,9 @@ def add_provider():
 
     db.session.add(provider)
     db.session.commit()
-    return jsonify(provider_schema.dump(provider))
+    return jsonify(provider_schema.dump(provider)), 201
+
+@providers.errorhandler(ValidationError)
+def register_validation_error(error):
+    #print(error.messages)
+    return error.messages, 400
