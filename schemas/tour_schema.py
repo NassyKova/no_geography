@@ -13,17 +13,13 @@ class TourSchema(ma.Schema):
     date = ma.String(required = True)
     time = ma.String(required = True)
     length = ma.String(required = True)
-    description  = ma.String(required = True)
+    description = ma.String(required = True)
     cost = ma.Integer(required = True)
     capacity = ma.Integer(required = True)
 
-    # Schema is defined as a String, to avoid the circular import error
+    # Schemas imported above
     provider = fields.Nested("ProviderSchema", only=("name",))
-    # address = fields.Nested("AddressSchema", only=("street_number", "street_name", "suburb",))
     address = fields.Nested("AddressSchema", only=("suburb", "postcode",))
-    # postcode = fields.Nested("PostcodeSchema", only=("postcode", "state",))
-
-    # address = fields.Nested(AddressSchema)
 
 # single tour schema
 tour_schema = TourSchema()

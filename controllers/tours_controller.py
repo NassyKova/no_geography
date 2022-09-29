@@ -3,8 +3,15 @@ from flask import Blueprint, jsonify, request
 from main import db
 from models.tours import Tour
 from schemas.tour_schema import tour_schema, tours_schema
+from schemas.address_schema import address_schema
+from schemas.postcode_schema import postcode_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from marshmallow import ValidationError
+from sqlalchemy import text
+import json
+from sqlalchemy.sql import select
+from sqlalchemy import and_, or_
+
 
 tours = Blueprint('tours', __name__, url_prefix="/tours")
 
@@ -33,6 +40,38 @@ def get_tour(id):
         return {"error": "no such tour id"}, 404
     result = tour_schema.dump(tour)
     return jsonify(result)
+
+# @tours.route("/postcode/3555", methods=["GET"])
+# def get_tour_postcode():
+#     # get the tour from the database by postcode
+#     tour = text('''SELECT tours.title, suburb, postcode
+#     FROM tours, addresses, postcodes
+#     WHERE tours.address_id = addresses.address_id 
+#     AND addresses.postcode_id = postcodes.postcode_id
+#     AND postcode = 3555''')
+
+#     result = db.engine.execute(tour)
+#     return json.dumps([dict(r) for r in result])
+
+
+@tours.route("/postcode/<int:postcode>", methods=["GET"])
+def get_tour_postcode(postcode):
+    # postcode = ###
+    # get the tour from the database by postcode
+    tour = text('''SELECT tours.title, suburb, postcode
+    FROM tours, addresses, postcodes
+    WHERE tours.address_id = addresses.address_id 
+    AND addresses.postcode_id = postcodes.postcode_id
+    AND postcode LIKE :e1''')
+    # conn = engine.connect()
+    conn.execute(tour, {"e1":postcode}).fetchall()
+
+    # if not tour:
+    #     return {"error": "no tours in this area"}, 404
+    result = db.engine.execute(tour)
+    return json.dumps([dict(r) for r in result])
+    # for record in result:
+    #     print("\n", record)
 
 
 @tours.route("/add", methods=["POST"])

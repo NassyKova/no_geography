@@ -86,7 +86,7 @@ def seed_db():
         street_number = "22",
         street_name = "Red rd",
         suburb = "Hot Springs",
-        postcode_id = postcode1.postcode_id,
+        postcode_id = postcode2.postcode_id,
     )
     db.session.add(address2)
 # commit addresses

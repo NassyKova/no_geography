@@ -1,7 +1,10 @@
 # Anastasia Dyakova T2a
 
 > ## R1	Identification of the problem you are trying to solve by building this particular app.
-A friend of mine is running a travel group on MeetUp, they run it by themselves. We were discussing the possibilities of growing the business. One of the idea was about combinging different small groups similar to what my friend made. Having all the groups in one place will be benefecial for the group owners - client base will be increasing 
+A friend of mine is running a travel group on MeetUp, they run it by themselves. We were discussing the possibilities of growing the business. One of the idea was about combinging different small tour providing  groups similar to what my friend made. Having all the groups in one place will be benefecial for the group owners - client base will be increasing 
+### User story.
+    Janice 26
+    "My family and I are quite social and active. We like to go for a hike or rent a couple of kayaks, walk in a forrest. It's nice to meet likeminded peope and make new friends. I want to have an easy access to the all the activities in my area and easily book something that I like. I aslo would like to see past events I attended"
 > ## R2	Why is it a problem that needs solving?
 
 > ## R3	Why have you chosen this database system. What are the drawbacks compared to others?
@@ -19,30 +22,21 @@ Opensource also comes with no warranty and no liability
 Object-relational mapping connects the code and the database.
 > ## R5	Document all endpoints for your API
 ### Authoisational routes
-- __@auth.route("/register", methods=["POST"])__
-register new clients
-- __@auth.route("/login", methods=["POST"])__
-log in existing clients
-- __@auth.route("/admin/login", methods=["POST"])__
-admin login, jwt requred
+- __@auth.route("/register", methods=["POST"])__ register new clients
+- __@auth.route("/login", methods=["POST"])__ log in existing clients
+- __@auth.route("/admin/login", methods=["POST"])__ admin login, jwt requred
 ### Tours routes
-- __@tours.route("/", methods=["GET"])__
-shows all tours
-- __@tours.route("/<int:id>", methods=["GET"])__
-shows information about tour by tour id
-- __@tours.route("/add", methods=["POST"])__
-adding new tour, by admin only, jwt required
-- __@tours.route("/<int:id>", methods=["PUT"])__
-update excisting tour, by admin only, jwt required
+- __@tours.route("/", methods=["GET"])__ get all the tours
+- __@tours.route("/<int:id>", methods=["GET"])__ get information about tour by tour id
+- __@tours.route("/add", methods=["POST"])__ add new tour, by admin only, jwt required
+- __@tours.route("/<int:id>", methods=["PUT"])__ update excisting tour, by admin only, jwt required
 ### Providers routes
-- __@providers.route('/', methods=['GET'])__
-shows all providers, by admin only
-- __@providers.route("/<int:id>", methods=['GET'])__
-shows 1 provider choosen by id, admin only
-- __@providers.route("/add", methods=["POST"])__
-adding new provider, admin only
+- __@providers.route('/', methods=['GET'])__ get all the providers, by admin only
+- __@providers.route("/<int:id>", methods=['GET'])__ shows 1 provider choosen by id, admin only
+- __@providers.route("/add", methods=["POST"])__ adding new provider, admin only
 ### Bookings routes
-- __@bookings.route('/', methods=["GET"])__
+- __@bookings.route('/', methods=["GET"])__ get all the bookings, admin only
+- __@bookings.route("<int:tour_id>/add/<int:client_id>", methods=["POST"])__ add new booking using tour id and client id, admin only
 
 > ## R6	An ERD for your app
 ![]()
