@@ -56,22 +56,19 @@ def get_tour(id):
 
 @tours.route("/postcode/<int:postcode>", methods=["GET"])
 def get_tour_postcode(postcode):
-    # postcode = ###
-    # get the tour from the database by postcode
+    # RAW sql command to filter tours by postcode
     tour = text('''SELECT tours.title, suburb, postcode
     FROM tours, addresses, postcodes
     WHERE tours.address_id = addresses.address_id 
     AND addresses.postcode_id = postcodes.postcode_id
-    AND postcode LIKE :e1''')
-    # conn = engine.connect()
-    conn.execute(tour, {"e1":postcode}).fetchall()
+    AND postcode = :e1''')
+    # get the tours filtered by postcode
+    result = db.engine.execute(tour, {"e1":postcode})
+    variable = json.dumps([dict(r) for r in result])
+    if variable == "[]":
+        return {"error": "no tours in this area"}, 404
+    return variable
 
-    # if not tour:
-    #     return {"error": "no tours in this area"}, 404
-    result = db.engine.execute(tour)
-    return json.dumps([dict(r) for r in result])
-    # for record in result:
-    #     print("\n", record)
 
 
 @tours.route("/add", methods=["POST"])
