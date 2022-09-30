@@ -10,8 +10,8 @@ class TourSchema(ma.Schema):
         fields = ["title","description", "tour_id", "date", "time", "length", "cost", "capacity", "address_id", "postcode_id", "provider_id", "provider", "address", "postcode"]
         load_only = ["provider_id", "address_id"]
     title = ma.String(required = True)
-    date = ma.String(required = True)
-    time = ma.String(required = True)
+    date = ma.Date(required = True)
+    time = ma.Time(required = True)
     length = ma.String(required = True)
     description = ma.String(required = True)
     cost = ma.Integer(required = True)

@@ -9,9 +9,6 @@ class ClientSchema(ma.Schema):
     #add validation to password
     email = ma.String(required = True)
     password = ma.String(validate=Length(min=8), required=True)
-    phone = ma.Integer(required = True)
-    f_name = ma.String(required = True)
-    l_name = ma.String(required = True)
 
         # load_only = ["provider_id"]
     # Schema is defined as a String, to avoid the circular import error

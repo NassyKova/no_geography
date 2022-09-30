@@ -41,18 +41,6 @@ def get_tour(id):
     result = tour_schema.dump(tour)
     return jsonify(result)
 
-# @tours.route("/postcode/3555", methods=["GET"])
-# def get_tour_postcode():
-#     # get the tour from the database by postcode
-#     tour = text('''SELECT tours.title, suburb, postcode
-#     FROM tours, addresses, postcodes
-#     WHERE tours.address_id = addresses.address_id 
-#     AND addresses.postcode_id = postcodes.postcode_id
-#     AND postcode = 3555''')
-
-#     result = db.engine.execute(tour)
-#     return json.dumps([dict(r) for r in result])
-
 
 @tours.route("/postcode/<int:postcode>", methods=["GET"])
 def get_tour_postcode(postcode):
@@ -96,8 +84,6 @@ def add_tour():
     return jsonify(tour_schema.dump(tour)), 201 
 
 
-
-
 @tours.route("/<int:id>", methods=["PUT"])
 @jwt_required()
 def update_tour(id):
@@ -119,11 +105,10 @@ def update_tour(id):
     tour.capacity = tour_fields["capacity"]
     tour.address_id = tour_fields["address_id"]
     tour.provider_id = tour_fields["provider_id"]
-        
     #save changes in the database
     db.session.commit() 
-
     return jsonify(tour_schema.dump(tour)), 201  
+
 
 
 @tours.errorhandler(ValidationError)

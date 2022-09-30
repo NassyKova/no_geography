@@ -28,6 +28,7 @@ Object-relational mapping connects the code and the database.
 ### Tours routes
 - __@tours.route("/", methods=["GET"])__ get all the tours
 - __@tours.route("/<int:id>", methods=["GET"])__ get information about tour by tour id
+- __@tours.route("/postcode/<int:postcode>", methods=["GET"])__ find tours by postcode
 - __@tours.route("/add", methods=["POST"])__ add new tour, by admin only, jwt required
 - __@tours.route("/<int:id>", methods=["PUT"])__ update excisting tour, by admin only, jwt required
 ### Providers routes
