@@ -1,20 +1,31 @@
 # Anastasia Dyakova T2a
 
 > ## R1	Identification of the problem you are trying to solve by building this particular app.
-A friend of mine is running a travel group on MeetUp, they run it by themselves. We were discussing the possibilities of growing the business. One of the idea was about combinging different small tour providing  groups similar to what my friend made. Having all the groups in one place will be benefecial for the group owners - client base will be increasing 
+A friend of mine is running a travel group on MeetUp, they run it by themselves. We were discussing the possibilities of growing the business. One of the idea was about combinging different small tour groups similar to what my friend made together. Having all the groups in one place will be benefecial for the group owners - client base will be increasing 
 ### User story.
     Janice 26
-    "My family and I are quite social and active. We like to go for a hike or rent a couple of kayaks, walk in a forrest. It's nice to meet likeminded peope and make new friends. I want to have an easy access to the all the activities in my area and easily book something that I like. I aslo would like to see past events I attended"
+    "My family and I are quite social and active. We like to go for a hike or rent a couple of kayaks and spend exploring a lake, or go for a walk in a forrest. It's nice to meet likeminded peope and make new friends. I want to have an easy access to the all the activities in my area and easily book something that I like"
 > ## R2	Why is it a problem that needs solving?
+At the moment if client wants to book different tours, they need to to be signed up in different groups. It leads to different websites, different logins and passwords. For the businees it means that they can loose the client with time.
+Having one database for all the tours created by different groups is beneficial for everyone:
+For the busines
+- Shared clientbase, works for promo, targeting by location, activity tupe, etc
+- Easy to be found by people who are already interested in the product
+
+For the client
+- One website, one login and password
+- Easy search using postcodes
+- potentially make a forum/social network, easier to meet with people
+
 
 > ## R3	Why have you chosen this database system. What are the drawbacks compared to others?
 For this project we use PostgreSQL database.
-Postgres is a very well documented database system, it's open sourced and free. It works well with external databases and runs on different platforms. Nested databases transactions let the database be more adaptable. Creating and dropping the tables is very simpl to use.
+Postgres is a very well documented database system, it's open sourced and free. It works well with external databases and runs on different platforms. Nested databases transactions let the database be more adaptable. Creating and dropping the tables is very simple to use.
 
 Drawback for postgres would be
 Horisontal scaling can get complicated, requires additional solutions to make it easily useble.
 Not the best solution for large scale applications, it might work noticably slow.
-According to database structure, we can't have nore fields than already had been defined in the database. To cxhange that, we need to go thought the code and implement the change in every place that has a connection.
+According to database structure, we can't have more fields than already had been defined in the database. To cxhange that, we need to go thought the code and implement the change in every place that has a connection.
 Opensource also comes with no warranty and no liability
 
 
@@ -42,24 +53,24 @@ Object-relational mapping connects the code and the database.
 > ## R6	An ERD for your app
 ![]()
 > ## R7	Detail any third party services that your app will use
-- psycopg2 To create the connection in Flask we need Psycopg, which is the most popular PostgreSQL database adapter for Pytho
-- SQLAlchemy SQLAlchemy is the ORM we will use to connect Flask and PostgreSQL, so let's install that as well:
-- marshmallow. This means that the data we get from a database is not serialized, it is not considered a list. To do that we can get help of a package like marshmallow
-- blueprintsBlueprints are basically a way of defining some of the properties of a Flask app in advance, so that you can pick when that definition takes effect, and even apply your defined behaviour to multiple apps if you want. 
-- flask-bcrypt To keep the users password safe in our database we will use hashing. The technical definition of a hash function is the ability for the function to take a piece of data of any size and create a piece of data from the original in a fixed size.An example would be if we take a piece of text and hash it with a hasing function such as sha256. We are returned a piece of data with a fixed length of 256 bits. For our server we'll use a slow-hashing library like flask-bcrypt. I
-from marshmallow import ValidationError
-from marshmallow.validate import Length
-- flask-jwt-extended
+Whule creating this app we added different third part cervice such as:
+- psycopg2 is a popular database adapter for Python for creating connections in Flask
+- SQLAlchemy lets connect Flaks and Postgresql:
+- marshmallow lets serialized the data, converting complex database to and from Python daratypes
+- marshmallow-sqlalchemy is an integreation marshmallow and SQLAlchemy
+- Blueprints lets define some of the properties which it can be used at any time in the app
+- flask-bcrypt provide bcrypt hashing - talking a pice of data of any size and coverting to a pice of dada with fixed size. Used for passwords and other sensitive data
+- flask-jwt-extended lets create different types of tokens that used for validation and security purposes. It also allows to call a special identity for validation purposes
 
 > ## R8	Describe your projects models in terms of the relationships they have with each other
 1 provider can have many tours. 
 1 provider has one address.
 1 tour has 1 address
-1 addrees has 1 postcodes
+1 address has 1 postcode
 1 booking has one tour
 1 client can have many bookings
 1 tour has 1 address
 > ## R9	Discuss the database relations to be implemented in your application
-erd vs models
+In our application we wanyed to implement 
 > ## R10	Describe the way tasks are allocated and tracked in your project
 trello board

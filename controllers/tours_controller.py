@@ -27,10 +27,6 @@ def get_tours():
     # # return the data in JSON format
     return jsonify(result)
 
-    # tours_list = Tour.query.all()
-    # result = tours_schema.dump(tours_list)
-    # return jsonify(result), #200
-
 
 @tours.route("/<int:id>", methods=["GET"])
 def get_tour(id):
@@ -58,7 +54,6 @@ def get_tour_postcode(postcode):
     return variable
 
 
-
 @tours.route("/add", methods=["POST"])
 @jwt_required()
 def add_tour():
@@ -77,10 +72,8 @@ def add_tour():
         address_id = tour_fields["address_id"],
         provider_id = tour_fields["provider_id"]
     )
-
     db.session.add(tour)
     db.session.commit()
-
     return jsonify(tour_schema.dump(tour)), 201 
 
 
