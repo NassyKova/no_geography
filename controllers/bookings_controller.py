@@ -6,14 +6,19 @@ from models.clients import Client
 # from schemas.tour_schema import tour_schema, tours_schema
 from schemas.booking_schema import booking_schema, bookings_schema
 # from schemas.client_schema import client_schema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 bookings = Blueprint('bookings', __name__, url_prefix="/bookings")
 
 
 # get all bookings
-@bookings.route('/', methods=["GET"])
+@bookings.route('/', methods=["GET"], strict_slashes=False)
+@jwt_required()
 def get_all_bookings():
+        #the identity needs to be an admin
+    if get_jwt_identity() != "admin":
+        return {"error": "You don't have the permission to do this"}, 403 
+    #find the tour in the database
     bookings_list = Booking.query.all()
     result = bookings_schema.dump(bookings_list)
     return jsonify(result)

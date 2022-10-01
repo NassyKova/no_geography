@@ -6,7 +6,7 @@ from marshmallow import fields
 class BookingSchema(ma.Schema):
     class Meta:
         ordered = True
-        fields = ("booking_id", "client_id", "tour_id", "client", "tour")
+        fields = ("booking_id", "client_id", "tour_id", "client", "tour", "created")
         # If not ID's required:
         # load_only = ("client_id", "tour_id")
     # what shows after booking added

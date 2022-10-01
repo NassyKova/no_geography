@@ -7,7 +7,7 @@ from marshmallow import ValidationError
 
 providers = Blueprint('providers', __name__, url_prefix="/providers")
 
-@providers.route('/', methods=['GET'])
+@providers.route('/', methods=['GET'], strict_slashes=False)
 @jwt_required()
 def get_providers():
     if get_jwt_identity() != "admin":
@@ -27,6 +27,8 @@ def get_provider(id):
         return {"error": "You don't have the permission to do this"}, 403  
         # get the provider from the db
     provider = Provider.query.get(id)
+    if not provider:
+        return {"error": "no such provider id"}, 404
         # Convert the provider from the database into a JSON format and store it in result
     result = provider_schema.dump(provider)
     # # return the data in JSON format
@@ -40,6 +42,10 @@ def add_provider():
     if get_jwt_identity() != "admin":
         return {"error": "You don't have the permission to do this"}, 403    
     provider_fields = provider_schema.load (request.json)
+    # check the client by phone to check if is'a already in the db
+    provider = Provider.query.filter_by(name=provider_fields["name"]).first()
+    if provider:
+        return {"error": "This provider has already been registered"}, 400
     provider = Provider(
         name = provider_fields["name"],
         website = provider_fields["website"],

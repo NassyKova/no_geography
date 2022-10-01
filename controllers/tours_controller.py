@@ -1,25 +1,22 @@
-from urllib import response
 from flask import Blueprint, jsonify, request
 from main import db
 from models.tours import Tour
 from schemas.tour_schema import tour_schema, tours_schema
-from schemas.address_schema import address_schema
-from schemas.postcode_schema import postcode_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from marshmallow import ValidationError
 from sqlalchemy import text
 import json
-from sqlalchemy.sql import select
-from sqlalchemy import and_, or_
+
+
 
 
 tours = Blueprint('tours', __name__, url_prefix="/tours")
 
 # The GET routes endpoint
-@tours.route("/", methods=["GET"])
+@tours.route("/", methods=["GET"], strict_slashes=False)
 def get_tours():
-    # show the contnet of the query string
-    print(request.query_string)
+    # # show the content of the query string, can be used for identifying the query, can be deleted
+    # print(request.query_string)
     # get all the tours from the db
     tours_list = Tour.query.all()
     # Convert the tours from the database into a JSON format and store them in result
@@ -54,7 +51,7 @@ def get_tour_postcode(postcode):
     return variable
 
 
-@tours.route("/add", methods=["POST"])
+@tours.route("/add", methods=["POST"], strict_slashes=False)
 @jwt_required()
 def add_tour():
         #the identity needs to be an admin
@@ -65,7 +62,6 @@ def add_tour():
         title = tour_fields["title"],
         description = tour_fields["description"],
         date = tour_fields["date"],
-        time = tour_fields["time"],
         length = tour_fields["length"],
         cost = tour_fields["cost"],
         capacity = tour_fields["capacity"],

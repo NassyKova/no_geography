@@ -43,7 +43,7 @@ def register_client():
     # generate the token setting the identity (client_id) and expiry time (1 day)
     token = create_access_token(identity=str(client.client_id),expires_delta=timedelta(days=1))
 
-    return {"email": client.email, "token": token, "f_name": client.f_name, "l_name": client.l_name, "phone": client.phone}, 201
+    return {"email": client.email, "token": token, "f_name": client.f_name, "l_name": client.l_name}, 201
 
 
 # client's login
@@ -74,7 +74,7 @@ def login_admin():
         return {'error': "this email does not have admin rights"}, 403 
 
     if not bcrypt.check_password_hash(admin.password, admin_fields["password"]):
-        return {'error': "this password is not correct"}, 401
+        return {'error': "this password is not correct"}, 400
     # Credentials are valid, so generate token and return it to the user
     token = create_access_token(identity="admin", expires_delta=timedelta(days=1))
 
