@@ -1,6 +1,6 @@
 ******************NO GEOGRAPHY********************************
 
-A friend of mine is running a travel group on Meetup, they run it by themselves. We were discussing the possibilities of growing the business. One of the idea was about combining different small tour groups similar to what my friend made together. Having all the groups in one place will be beneficial for the group owners - client base will be increasing 
+A friend of mine is running a travel group on Meetup, they run it by themselves. We were discussing the possibilities of growing the business. One of the ideas was about combining different small tour groups similar to what my friend made together. Having all the groups in one place will be beneficial for the group owners - client base will be increasing 
 ### User story.
     Janice 26
     "My family and I are quite social and active. We like to go for a hike or rent a couple of kayaks and spend exploring a lake, or go for a walk in a forest. It's nice to meet likeminded people and make new friends. I want to have an easy access to the all the activities in my area and easily book something that I like"
